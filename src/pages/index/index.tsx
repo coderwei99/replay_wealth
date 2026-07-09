@@ -245,7 +245,6 @@ export default function IndexPage() {
                 speed={speed}
                 invested={invested}
                 currency={replay.currency}
-                height={300}
                 onIndexChange={handleChartIndex}
                 onFinished={handleChartFinished}
               />

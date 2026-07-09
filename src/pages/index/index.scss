@@ -304,61 +304,92 @@
     margin-top: 0;
     flex: 1;
     min-height: 0;
+    display: flex;
+    flex-direction: column;
     gap: 12rpx;
     overflow: hidden;
 
-    // 结果态下压缩卡片内边距，尽量一屏展示
+    // 结果态：统计 / 控制条固定高度，曲线吃剩余空间，互不叠压
     :global(.stats-panel) {
-      padding: 20rpx;
+      padding: 16rpx;
+      flex: 0 0 auto;
       flex-shrink: 0;
     }
 
     :global(.stats-panel__top) {
-      margin-bottom: 12rpx;
+      margin-bottom: 10rpx;
+      min-height: 0;
+    }
+
+    :global(.stats-panel__title) {
+      font-size: 30rpx;
+    }
+
+    :global(.stats-panel__range),
+    :global(.stats-panel__hold) {
+      font-size: 20rpx;
     }
 
     :global(.stats-panel__grid) {
-      gap: 10rpx;
+      gap: 8rpx;
     }
 
     :global(.stat-card) {
-      padding: 14rpx 16rpx;
+      padding: 12rpx 14rpx;
     }
 
     :global(.stat-card__value) {
-      font-size: 26rpx;
-      margin-top: 6rpx;
+      font-size: 24rpx;
+      margin-top: 4rpx;
+    }
+
+    :global(.stat-card__sub) {
+      font-size: 18rpx;
     }
 
     :global(.value-chart) {
-      flex-shrink: 0;
-    }
-
-    :global(.value-chart__header) {
-      padding: 16rpx 20rpx;
+      flex: 1 1 auto;
+      min-height: 0;
+      // 防止 canvas 内容溢出盖住下方控制条
+      position: relative;
+      z-index: 1;
     }
 
     :global(.playback) {
-      padding: 16rpx 20rpx;
+      padding: 12rpx 16rpx 14rpx;
+      flex: 0 0 auto;
       flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+      // 与曲线区域明确分隔
+      margin-top: 0;
     }
 
     :global(.playback__top) {
-      margin-bottom: 8rpx;
+      margin-bottom: 4rpx;
+    }
+
+    :global(.playback__date) {
+      font-size: 24rpx;
     }
 
     :global(.playback__slider) {
-      margin: 8rpx 0 12rpx;
+      margin: 4rpx 0 8rpx;
+    }
+
+    :global(.playback__btns) {
+      gap: 16rpx;
     }
 
     :global(.playback__play) {
-      width: 84rpx;
-      height: 84rpx;
+      width: 72rpx;
+      height: 72rpx;
+      border-radius: 20rpx;
     }
 
     :global(.playback__btn) {
-      width: 64rpx;
-      height: 64rpx;
+      width: 56rpx;
+      height: 56rpx;
     }
 
     :global(.compare-rank) {

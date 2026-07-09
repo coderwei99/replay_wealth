@@ -59,7 +59,10 @@ export function formatNumber(value: number, digits = 4): string {
 
 export function formatDateCN(date: string): string {
   const [y, m, d] = date.split("-");
-  return `${y}年${Number(m)}月${Number(d)}日`;
+  // 保留两位月/日，避免回放时 9日→10日 字符串变长触发换行抖动
+  const mm = String(m ?? "").padStart(2, "0");
+  const dd = String(d ?? "").padStart(2, "0");
+  return `${y}年${mm}月${dd}日`;
 }
 
 export function todayISO(): string {

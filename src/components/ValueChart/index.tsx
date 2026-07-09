@@ -12,6 +12,9 @@ interface ValueChartProps {
   playing?: boolean;
   speed?: number;
   invested?: number;
+  /**
+   * 画布高度（rpx）。不传则由外层 flex 撑满剩余空间（推荐结果页使用）。
+   */
   height?: number;
   currency?: CurrencyCode;
   /** 进度变化（节流后的整数 index，供统计面板用） */
@@ -387,16 +390,18 @@ export default function ValueChart({
   playing = false,
   speed = 1,
   invested,
-  height = 420,
+  height,
   currency = "CNY",
   onIndexChange,
   onFinished,
 }: ValueChartProps) {
   const canvasId = useId().replace(/:/g, "");
+  const fillMode = height == null;
   const readyRef = useRef(false);
   const sizeRef = useRef({ width: 0, height: 0 });
   const canvasRef = useRef<ChartNode | null>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const dprRef = useRef(2);
 
   // 动画内部状态（不走 React，保证流畅）
   const progressRef = useRef(0);
@@ -590,51 +595,69 @@ export default function ValueChart({
     rafRef.current = schedule(tick);
   };
 
-  // 初始化 canvas
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const query = Taro.createSelectorQuery();
-      query
-        .select(`#chart-${canvasId}`)
-        .fields({ node: true, size: true })
-        .exec((res) => {
-          const info = res?.[0];
-          if (!info?.node) return;
-          const canvas = info.node as ChartNode;
-          const width = info.width as number;
-          const heightPx = info.height as number;
-          const dpr = Taro.getSystemInfoSync().pixelRatio || 2;
-          canvas.width = width * dpr;
-          canvas.height = heightPx * dpr;
-          const ctx = canvas.getContext("2d");
-          ctx.scale(dpr, dpr);
-          canvasRef.current = canvas;
-          ctxRef.current = ctx;
-          sizeRef.current = { width, height: heightPx };
-          readyRef.current = true;
+  const bindCanvas = (retry = 0) => {
+    const query = Taro.createSelectorQuery();
+    query
+      .select(`#chart-${canvasId}`)
+      .fields({ node: true, size: true })
+      .exec((res) => {
+        const info = res?.[0];
+        if (!info?.node) {
+          if (retry < 8) {
+            setTimeout(() => bindCanvas(retry + 1), 50);
+          }
+          return;
+        }
+        const canvas = info.node as ChartNode;
+        const width = info.width as number;
+        const heightPx = info.height as number;
+        // flex 布局首帧可能量到 0，稍后重试
+        if ((!width || !heightPx) && retry < 8) {
+          setTimeout(() => bindCanvas(retry + 1), 50);
+          return;
+        }
+        const dpr = Taro.getSystemInfoSync().pixelRatio || 2;
+        dprRef.current = dpr;
+        canvas.width = Math.max(1, width) * dpr;
+        canvas.height = Math.max(1, heightPx) * dpr;
+        const ctx = canvas.getContext("2d");
+        // 重新绑定上下文时需要重置变换
+        if (typeof (ctx as CanvasRenderingContext2D & { setTransform?: Function }).setTransform === "function") {
+          (ctx as CanvasRenderingContext2D & { setTransform: Function }).setTransform(1, 0, 0, 1, 0, 0);
+        }
+        ctx.scale(dpr, dpr);
+        canvasRef.current = canvas;
+        ctxRef.current = ctx;
+        sizeRef.current = { width: Math.max(1, width), height: Math.max(1, heightPx) };
+        readyRef.current = true;
 
-          progressRef.current = clamp(
-            index,
-            0,
-            Math.max(0, series.length - 1),
-          );
+        if (progressRef.current === 0 && index > 0) {
+          progressRef.current = clamp(index, 0, Math.max(0, series.length - 1));
+        }
+        if (!cameraRef.current) {
           phaseRef.current = "play";
           cameraRef.current = targetFocusCamera(
             series,
             progressRef.current,
             invested,
           );
-          renderOnce();
-          pushUi(progressRef.current, "play", true);
-          if (playing) ensureLoop();
-        });
-    }, 40);
+        }
+        renderOnce();
+        pushUi(progressRef.current, phaseRef.current, true);
+        if (playingRef.current) ensureLoop();
+      });
+  };
+
+  // 初始化 canvas（fill 模式等布局稳定后再量尺寸）
+  useEffect(() => {
+    progressRef.current = clamp(index, 0, Math.max(0, series.length - 1));
+    const timer = setTimeout(() => bindCanvas(0), fillMode ? 80 : 40);
     return () => {
       clearTimeout(timer);
       stopRaf();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canvasId]);
+  }, [canvasId, fillMode]);
 
   // 外部 index 同步（拖动 / 重置 / 跳转）— 播放中不抢控制权
   useEffect(() => {
@@ -725,7 +748,7 @@ export default function ValueChart({
     <View
       className={`value-chart ${
         ui.phase === "overview" ? "is-overview" : "is-focus"
-      }`}
+      }${fillMode ? " value-chart--fill" : ""}`}
     >
       <View className="value-chart__header">
         <View className="value-chart__head-left">
@@ -749,13 +772,21 @@ export default function ValueChart({
           </Text>
         </View>
       </View>
-      <Canvas
-        type="2d"
-        id={`chart-${canvasId}`}
-        canvasId={`chart-${canvasId}`}
-        className="value-chart__canvas"
-        style={{ width: "100%", height: `${height}rpx` }}
-      />
+      <View
+        className="value-chart__canvas-wrap"
+        style={
+          fillMode
+            ? undefined
+            : { height: `${height ?? 300}rpx` }
+        }
+      >
+        <Canvas
+          type="2d"
+          id={`chart-${canvasId}`}
+          canvasId={`chart-${canvasId}`}
+          className="value-chart__canvas"
+        />
+      </View>
     </View>
   );
 }

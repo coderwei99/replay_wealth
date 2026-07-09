@@ -7,6 +7,9 @@
     rgba(12, 12, 16, 0.2)
   );
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 
   &.is-focus {
     border-color: rgba(244, 63, 94, 0.18);
@@ -16,12 +19,20 @@
     border-color: rgba(255, 255, 255, 0.1);
   }
 
+  // 结果页：吃掉 Stats 与控制条之间的剩余高度，避免互相叠压
+  &--fill {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 0; // 配合 flex:1，在 column 布局里正确分配剩余空间
+  }
+
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 18rpx 22rpx 14rpx;
-    gap: 16rpx;
+    padding: 14rpx 20rpx 10rpx;
+    gap: 12rpx;
+    flex-shrink: 0;
   }
 
   &__head-left {
@@ -31,15 +42,15 @@
 
   &__label {
     display: block;
-    font-size: 22rpx;
+    font-size: 20rpx;
     color: #71717a;
     letter-spacing: 2rpx;
   }
 
   &__sub {
     display: block;
-    margin-top: 6rpx;
-    font-size: 22rpx;
+    margin-top: 4rpx;
+    font-size: 20rpx;
     color: #a1a1aa;
   }
 
@@ -50,9 +61,10 @@
 
   &__pct {
     display: block;
-    font-size: 34rpx;
+    font-size: 30rpx;
     font-weight: 700;
     line-height: 1.15;
+    font-variant-numeric: tabular-nums;
 
     &.up {
       color: #fb7185;
@@ -66,7 +78,8 @@
   &__pnl {
     display: block;
     margin-top: 2rpx;
-    font-size: 22rpx;
+    font-size: 20rpx;
+    font-variant-numeric: tabular-nums;
 
     &.up {
       color: rgba(251, 113, 133, 0.85);
@@ -79,14 +92,27 @@
 
   &__value {
     display: block;
-    margin-top: 6rpx;
-    font-size: 24rpx;
+    margin-top: 4rpx;
+    font-size: 22rpx;
     color: #e4e4e7;
     font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__canvas-wrap {
+    position: relative;
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 200rpx;
+    overflow: hidden;
   }
 
   &__canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
+    height: 100%;
     display: block;
   }
 }
