@@ -1,0 +1,115 @@
+.compare-rank {
+  border-radius: 24rpx;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 28rpx;
+
+  &__label {
+    display: block;
+    font-size: 22rpx;
+    color: #71717a;
+  }
+
+  &__title {
+    display: block;
+    margin-top: 8rpx;
+    margin-bottom: 20rpx;
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12rpx;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 14rpx;
+    padding: 18rpx;
+    border-radius: 18rpx;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  &__pos {
+    width: 48rpx;
+    height: 48rpx;
+    border-radius: 12rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24rpx;
+    font-weight: 700;
+    color: #a1a1aa;
+    background: rgba(255, 255, 255, 0.06);
+
+    &.pos-0 {
+      color: #fcd34d;
+      background: rgba(245, 158, 11, 0.18);
+    }
+
+    &.pos-1 {
+      color: #d4d4d8;
+      background: rgba(161, 161, 170, 0.18);
+    }
+
+    &.pos-2 {
+      color: #fdba74;
+      background: rgba(194, 65, 12, 0.18);
+    }
+  }
+
+  &__dot {
+    width: 14rpx;
+    height: 14rpx;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  &__meta {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    display: block;
+    font-size: 26rpx;
+    color: #fff;
+    font-weight: 500;
+  }
+
+  &__sub {
+    display: block;
+    margin-top: 4rpx;
+    font-size: 20rpx;
+    color: #71717a;
+  }
+
+  &__nums {
+    text-align: right;
+    flex-shrink: 0;
+
+    .up {
+      color: #6ee7b7;
+      font-weight: 600;
+      font-size: 26rpx;
+    }
+
+    .down {
+      color: #fda4af;
+      font-weight: 600;
+      font-size: 26rpx;
+    }
+  }
+
+  &__profit {
+    display: block;
+    margin-top: 4rpx;
+    font-size: 20rpx;
+    color: #71717a;
+  }
+}

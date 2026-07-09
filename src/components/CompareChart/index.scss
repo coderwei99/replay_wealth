@@ -1,0 +1,55 @@
+.compare-chart {
+  border-radius: 24rpx;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0)
+  );
+  overflow: hidden;
+
+  &__header {
+    padding: 24rpx 28rpx;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  &__label {
+    display: block;
+    font-size: 22rpx;
+    color: #71717a;
+  }
+
+  &__sub {
+    display: block;
+    margin-top: 6rpx;
+    font-size: 24rpx;
+    color: #a1a1aa;
+  }
+
+  &__canvas {
+    width: 100%;
+    display: block;
+  }
+
+  &__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16rpx 24rpx;
+    padding: 20rpx 28rpx 28rpx;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  &__legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10rpx;
+    font-size: 22rpx;
+    color: #d4d4d8;
+  }
+
+  &__dot {
+    width: 14rpx;
+    height: 14rpx;
+    border-radius: 50%;
+  }
+}

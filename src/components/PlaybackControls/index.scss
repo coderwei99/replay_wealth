@@ -1,0 +1,86 @@
+.playback {
+  border-radius: 24rpx;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 28rpx;
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16rpx;
+    gap: 12rpx;
+  }
+
+  &__label {
+    display: block;
+    font-size: 22rpx;
+    color: #71717a;
+  }
+
+  &__date {
+    display: block;
+    margin-top: 6rpx;
+    font-size: 26rpx;
+    color: #e4e4e7;
+  }
+
+  &__count {
+    color: #71717a;
+    font-size: 22rpx;
+  }
+
+  &__speeds {
+    display: flex;
+    gap: 8rpx;
+  }
+
+  &__speed {
+    padding: 8rpx 14rpx;
+    border-radius: 10rpx;
+    font-size: 22rpx;
+    color: #a1a1aa;
+    background: rgba(255, 255, 255, 0.04);
+
+    &.active {
+      color: #67e8f9;
+      background: rgba(34, 211, 238, 0.15);
+    }
+  }
+
+  &__slider {
+    margin: 12rpx 0 20rpx;
+  }
+
+  &__btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20rpx;
+  }
+
+  &__btn {
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 16rpx;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4d4d8;
+    font-size: 28rpx;
+  }
+
+  &__play {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 24rpx;
+    background: linear-gradient(135deg, #22d3ee, #8b5cf6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 32rpx;
+    box-shadow: 0 12rpx 32rpx rgba(34, 211, 238, 0.25);
+  }
+}

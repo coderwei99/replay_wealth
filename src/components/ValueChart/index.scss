@@ -1,0 +1,92 @@
+.value-chart {
+  border-radius: 24rpx;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(12, 12, 16, 0.2)
+  );
+  overflow: hidden;
+
+  &.is-focus {
+    border-color: rgba(244, 63, 94, 0.18);
+  }
+
+  &.is-overview {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 18rpx 22rpx 14rpx;
+    gap: 16rpx;
+  }
+
+  &__head-left {
+    min-width: 0;
+    flex: 1;
+  }
+
+  &__label {
+    display: block;
+    font-size: 22rpx;
+    color: #71717a;
+    letter-spacing: 2rpx;
+  }
+
+  &__sub {
+    display: block;
+    margin-top: 6rpx;
+    font-size: 22rpx;
+    color: #a1a1aa;
+  }
+
+  &__right {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  &__pct {
+    display: block;
+    font-size: 34rpx;
+    font-weight: 700;
+    line-height: 1.15;
+
+    &.up {
+      color: #fb7185;
+    }
+
+    &.down {
+      color: #34d399;
+    }
+  }
+
+  &__pnl {
+    display: block;
+    margin-top: 2rpx;
+    font-size: 22rpx;
+
+    &.up {
+      color: rgba(251, 113, 133, 0.85);
+    }
+
+    &.down {
+      color: rgba(52, 211, 153, 0.85);
+    }
+  }
+
+  &__value {
+    display: block;
+    margin-top: 6rpx;
+    font-size: 24rpx;
+    color: #e4e4e7;
+    font-weight: 600;
+  }
+
+  &__canvas {
+    width: 100%;
+    display: block;
+  }
+}
