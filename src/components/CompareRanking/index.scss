@@ -94,13 +94,13 @@
     flex-shrink: 0;
 
     .up {
-      color: #6ee7b7;
+      color: #f43f5e; // 盈利红（A 股习惯）
       font-weight: 600;
       font-size: 26rpx;
     }
 
     .down {
-      color: #fda4af;
+      color: #10b981; // 亏损绿
       font-weight: 600;
       font-size: 26rpx;
     }
