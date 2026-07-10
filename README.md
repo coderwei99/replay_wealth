@@ -66,6 +66,15 @@ npm run dev:weapp
 |------|------|
 | `npm run dev:weapp` | 微信小程序开发 |
 | `npm run build:weapp` | 生产构建 |
+| `npm run lint` | ESLint 检查 |
+| `npm run format` | ESLint 自动修复（含 jsx-quotes） |
+
+## Commit 规范
+
+提交信息遵循 **Conventional Commits**，**一条 commit 只做一件事**。  
+完整规则见根目录 [COMMIT_CONVENTION.md](./COMMIT_CONVENTION.md)。
+
+本地由 husky + commitlint 校验 `commit-msg`，不符合约定的提交会被拦截。
 
 ## 目录
 
