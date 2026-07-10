@@ -66,6 +66,26 @@ export default function IndexPage() {
 
   const seriesLength = replay?.series.length ?? 0;
 
+  const compareSeriesLength = useMemo(() => {
+    let max = 0;
+    for (const item of compareItems) {
+      max = Math.max(max, item.series.length);
+    }
+    return max;
+  }, [compareItems]);
+
+  const compareCurrentDate = useMemo(() => {
+    if (!compareItems.length) return undefined;
+    const longest = compareItems.reduce((a, b) =>
+      a.series.length >= b.series.length ? a : b,
+    );
+    const i = Math.min(
+      playIndex,
+      Math.max(0, longest.series.length - 1),
+    );
+    return longest.series[i]?.date;
+  }, [compareItems, playIndex]);
+
   const liveStats: InvestmentStats | null = useMemo(() => {
     if (!replay) return null;
     return (
@@ -78,6 +98,22 @@ export default function IndexPage() {
       ) ?? replay.stats
     );
   }, [replay, playIndex]);
+
+  /** 多资产：排名随回放进度刷新 */
+  const liveCompareItems = useMemo(() => {
+    if (!compareItems.length) return [];
+    return compareItems.map((item) => {
+      const stats =
+        statsAtIndex(
+          item.series,
+          invested,
+          item.stats.buyPrice,
+          item.stats.shares,
+          playIndex,
+        ) ?? item.stats;
+      return { ...item, stats };
+    });
+  }, [compareItems, invested, playIndex]);
 
   const stopPlayback = useCallback(() => {
     setPlaying(false);
@@ -176,7 +212,9 @@ export default function IndexPage() {
         }
         setCompareItems(results);
         setReplay(null);
+        setPlayIndex(0);
         setViewMode("compare");
+        setTimeout(() => setPlaying(true), 300);
       } else {
         const history = await fetchHistory(finalSymbol, buyDate, endDate, {
           market: "CN",
@@ -283,13 +321,52 @@ export default function IndexPage() {
           )}
 
           {viewMode === "compare" && compareItems.length > 0 && (
-            <View className='result result--fill'>
+            <View className='result result--fill result--compare'>
               <CompareRanking
-                items={compareItems}
+                items={liveCompareItems}
                 amount={invested}
                 currency='CNY'
               />
-              <CompareChart items={compareItems} />
+              <CompareChart
+                items={compareItems}
+                index={playIndex}
+                playing={playing}
+                speed={speed}
+                invested={invested}
+                onIndexChange={handleChartIndex}
+                onFinished={handleChartFinished}
+              />
+              <PlaybackControls
+                playing={playing}
+                index={playIndex}
+                total={compareSeriesLength}
+                currentDate={compareCurrentDate}
+                speed={speed}
+                onPlayPause={() => {
+                  if (playing) stopPlayback();
+                  else {
+                    if (playIndex >= compareSeriesLength - 1) setPlayIndex(0);
+                    setPlaying(true);
+                  }
+                }}
+                onReset={() => {
+                  stopPlayback();
+                  setPlayIndex(0);
+                }}
+                onSeek={(i) => {
+                  stopPlayback();
+                  setPlayIndex(i);
+                }}
+                onSpeedChange={setSpeed}
+                onSkipStart={() => {
+                  stopPlayback();
+                  setPlayIndex(0);
+                }}
+                onSkipEnd={() => {
+                  stopPlayback();
+                  setPlayIndex(Math.max(0, compareSeriesLength - 1));
+                }}
+              />
             </View>
           )}
         </View>
@@ -300,13 +377,28 @@ export default function IndexPage() {
   return (
     <ScrollView scrollY className='page' enhanced showScrollbar={false}>
       <View className='page__inner'>
-        <View className='hero'>
+        {/* <View className='hero'>
           <Text className='hero__badge'>如果当时买入了……</Text>
           <Text className='hero__title'>Replay Wealth</Text>
           <Text className='hero__desc'>
             A 股投资收益回放 · 可视化一笔持仓的故事
           </Text>
-        </View>
+        </View> */}
+
+        {!loading && (
+          <View className='empty card hero'>
+            <Text className='empty__title'>把一笔 A 股投资，做成可回放的故事</Text>
+            <Text className='empty__desc'>
+              选择股票或 ETF、买入日期和金额，用真实日线还原收益曲线，支持动画回放、最大回撤与年化收益，以及多标的同场对比。
+            </Text>
+            <View className='empty__list'>
+              <Text>01 收益曲线：持仓价值随时间变化</Text>
+              <Text>02 收益统计：收益 / 回撤 / 年化</Text>
+              <Text>03 动画回放：曲线与数字同步推进</Text>
+              <Text>04 多资产对比：同场排名（均为 A 股）</Text>
+            </View>
+          </View>
+        )}
 
         <View className='card form'>
           <View className='form__head'>
@@ -458,21 +550,6 @@ export default function IndexPage() {
         {loading && (
           <View className='loading-box'>
             <Text>正在拉取 A 股历史价格并计算收益…</Text>
-          </View>
-        )}
-
-        {!loading && (
-          <View className='empty card'>
-            <Text className='empty__title'>把一笔 A 股投资，做成可回放的故事</Text>
-            <Text className='empty__desc'>
-              选择股票或 ETF、买入日期和金额，用真实日线还原收益曲线，支持动画回放、最大回撤与年化收益，以及多标的同场对比。
-            </Text>
-            <View className='empty__list'>
-              <Text>01 收益曲线：持仓价值随时间变化</Text>
-              <Text>02 收益统计：收益 / 回撤 / 年化</Text>
-              <Text>03 动画回放：曲线与数字同步推进</Text>
-              <Text>04 多资产对比：同场排名（均为 A 股）</Text>
-            </View>
           </View>
         )}
 
