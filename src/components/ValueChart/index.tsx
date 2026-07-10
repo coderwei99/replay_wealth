@@ -750,15 +750,15 @@ export default function ValueChart({
         ui.phase === "overview" ? "is-overview" : "is-focus"
       }${fillMode ? " value-chart--fill" : ""}`}
     >
-      <View className="value-chart__header">
-        <View className="value-chart__head-left">
-          <Text className="value-chart__label">投资价值曲线</Text>
-          <Text className="value-chart__sub">
+      <View className='value-chart__header'>
+        <View className='value-chart__head-left'>
+          <Text className='value-chart__label'>投资价值曲线</Text>
+          <Text className='value-chart__sub'>
             {phaseLabel}
             {ui.date ? ` · ${ui.date}` : ""}
           </Text>
         </View>
-        <View className="value-chart__right">
+        <View className='value-chart__right'>
           <Text
             className={`value-chart__pct ${ui.positive ? "up" : "down"}`}
           >
@@ -767,13 +767,13 @@ export default function ValueChart({
           <Text className={`value-chart__pnl ${ui.positive ? "up" : "down"}`}>
             {formatCurrency(ui.profit, currency)}
           </Text>
-          <Text className="value-chart__value">
+          <Text className='value-chart__value'>
             {formatCurrency(ui.value, currency)}
           </Text>
         </View>
       </View>
       <View
-        className="value-chart__canvas-wrap"
+        className='value-chart__canvas-wrap'
         style={
           fillMode
             ? undefined
@@ -781,10 +781,10 @@ export default function ValueChart({
         }
       >
         <Canvas
-          type="2d"
+          type='2d'
           id={`chart-${canvasId}`}
           canvasId={`chart-${canvasId}`}
-          className="value-chart__canvas"
+          className='value-chart__canvas'
         />
       </View>
     </View>

@@ -218,20 +218,20 @@ export default function IndexPage() {
   // 结果态：隐藏选择区，仅渲染结果，避免整页滚动
   if (showingResult) {
     return (
-      <View className="page page--result">
-        <View className="page__inner page__inner--result">
-          <View className="result-bar">
-            <View className="result-bar__left" onClick={handleBackToForm}>
-              <Text className="result-bar__back">← 返回修改</Text>
+      <View className='page page--result'>
+        <View className='page__inner page__inner--result'>
+          <View className='result-bar'>
+            <View className='result-bar__left' onClick={handleBackToForm}>
+              <Text className='result-bar__back'>← 返回修改</Text>
             </View>
-            <Text className="result-bar__title">
+            <Text className='result-bar__title'>
               {viewMode === "compare" ? "多资产对比" : "收益回放"}
             </Text>
-            <View className="result-bar__right" />
+            <View className='result-bar__right' />
           </View>
 
           {viewMode === "single" && replay && liveStats && (
-            <View className="result result--fill">
+            <View className='result result--fill'>
               <StatsPanel
                 stats={liveStats}
                 symbol={replay.symbol}
@@ -283,11 +283,11 @@ export default function IndexPage() {
           )}
 
           {viewMode === "compare" && compareItems.length > 0 && (
-            <View className="result result--fill">
+            <View className='result result--fill'>
               <CompareRanking
                 items={compareItems}
                 amount={invested}
-                currency="CNY"
+                currency='CNY'
               />
               <CompareChart items={compareItems} />
             </View>
@@ -298,23 +298,23 @@ export default function IndexPage() {
   }
 
   return (
-    <ScrollView scrollY className="page" enhanced showScrollbar={false}>
-      <View className="page__inner">
-        <View className="hero">
-          <Text className="hero__badge">如果当时买入了……</Text>
-          <Text className="hero__title">Replay Wealth</Text>
-          <Text className="hero__desc">
+    <ScrollView scrollY className='page' enhanced showScrollbar={false}>
+      <View className='page__inner'>
+        <View className='hero'>
+          <Text className='hero__badge'>如果当时买入了……</Text>
+          <Text className='hero__title'>Replay Wealth</Text>
+          <Text className='hero__desc'>
             A 股投资收益回放 · 可视化一笔持仓的故事
           </Text>
         </View>
 
-        <View className="card form">
-          <View className="form__head">
+        <View className='card form'>
+          <View className='form__head'>
             <View>
-              <Text className="form__title">投资回放参数</Text>
-              <Text className="form__sub">选择 A 股 / ETF、日期与金额</Text>
+              <Text className='form__title'>投资回放参数</Text>
+              <Text className='form__sub'>选择 A 股 / ETF、日期与金额</Text>
             </View>
-            <View className="form__tabs">
+            <View className='form__tabs'>
               <View
                 className={`form__tab ${mode === "single" ? "active" : ""}`}
                 onClick={() => setMode("single")}
@@ -331,14 +331,14 @@ export default function IndexPage() {
           </View>
 
           {mode === "single" ? (
-            <View className="form__section">
-              <Text className="form__label">投资标的（A股）</Text>
+            <View className='form__section'>
+              <Text className='form__label'>投资标的（A股）</Text>
               {categories.map(([cat, assets]) => (
-                <View key={cat} className="form__cat">
-                  <Text className="form__cat-label">
+                <View key={cat} className='form__cat'>
+                  <Text className='form__cat-label'>
                     {CATEGORY_LABELS[cat] ?? cat}
                   </Text>
-                  <View className="form__chips">
+                  <View className='form__chips'>
                     {assets.map((a) => (
                       <View
                         key={a.symbol}
@@ -347,14 +347,14 @@ export default function IndexPage() {
                       >
                         <Text>
                           {a.name}
-                          <Text className="chip__code"> {a.symbol}</Text>
+                          <Text className='chip__code'> {a.symbol}</Text>
                         </Text>
                       </View>
                     ))}
                   </View>
                 </View>
               ))}
-              <View className="form__chips">
+              <View className='form__chips'>
                 <View
                   className={`chip ${symbol === "__custom__" ? "active" : ""}`}
                   onClick={() => setSymbol("__custom__")}
@@ -364,18 +364,18 @@ export default function IndexPage() {
               </View>
               {symbol === "__custom__" && (
                 <Input
-                  className="form__input"
+                  className='form__input'
                   value={customSymbol}
-                  placeholder="6 位代码，如 600519 / 000001 / 300750"
-                  placeholderClass="form__placeholder"
+                  placeholder='6 位代码，如 600519 / 000001 / 300750'
+                  placeholderClass='form__placeholder'
                   onInput={(e) => setCustomSymbol(e.detail.value)}
                 />
               )}
             </View>
           ) : (
-            <View className="form__section">
-              <Text className="form__label">选择对比资产</Text>
-              <View className="form__chips">
+            <View className='form__section'>
+              <Text className='form__label'>选择对比资产</Text>
+              <View className='form__chips'>
                 {presets.map((a) => (
                   <View
                     key={a.symbol}
@@ -384,7 +384,7 @@ export default function IndexPage() {
                   >
                     <Text>
                       {a.name}
-                      <Text className="chip__code"> {a.symbol}</Text>
+                      <Text className='chip__code'> {a.symbol}</Text>
                     </Text>
                   </View>
                 ))}
@@ -392,41 +392,41 @@ export default function IndexPage() {
             </View>
           )}
 
-          <View className="form__row">
-            <View className="form__field">
-              <Text className="form__label">买入日期</Text>
+          <View className='form__row'>
+            <View className='form__field'>
+              <Text className='form__label'>买入日期</Text>
               <Picker
-                mode="date"
+                mode='date'
                 value={buyDate}
                 end={endDate}
                 onChange={(e) => setBuyDate(e.detail.value)}
               >
-                <View className="form__picker">{buyDate}</View>
+                <View className='form__picker'>{buyDate}</View>
               </Picker>
             </View>
-            <View className="form__field">
-              <Text className="form__label">截止日期</Text>
+            <View className='form__field'>
+              <Text className='form__label'>截止日期</Text>
               <Picker
-                mode="date"
+                mode='date'
                 value={endDate}
                 start={buyDate}
                 end={todayISO()}
                 onChange={(e) => setEndDate(e.detail.value)}
               >
-                <View className="form__picker">{endDate}</View>
+                <View className='form__picker'>{endDate}</View>
               </Picker>
             </View>
           </View>
 
-          <View className="form__section">
-            <Text className="form__label">投入金额 (CNY)</Text>
+          <View className='form__section'>
+            <Text className='form__label'>投入金额 (CNY)</Text>
             <Input
-              className="form__input"
-              type="digit"
+              className='form__input'
+              type='digit'
               value={amount}
               onInput={(e) => setAmount(e.detail.value)}
             />
-            <View className="form__chips">
+            <View className='form__chips'>
               {[10000, 50000, 100000, 500000].map((v) => (
                 <View
                   key={v}
@@ -440,7 +440,7 @@ export default function IndexPage() {
           </View>
 
           {error && (
-            <View className="form__error">
+            <View className='form__error'>
               <Text>{error}</Text>
             </View>
           )}
@@ -456,18 +456,18 @@ export default function IndexPage() {
         </View>
 
         {loading && (
-          <View className="loading-box">
+          <View className='loading-box'>
             <Text>正在拉取 A 股历史价格并计算收益…</Text>
           </View>
         )}
 
         {!loading && (
-          <View className="empty card">
-            <Text className="empty__title">把一笔 A 股投资，做成可回放的故事</Text>
-            <Text className="empty__desc">
+          <View className='empty card'>
+            <Text className='empty__title'>把一笔 A 股投资，做成可回放的故事</Text>
+            <Text className='empty__desc'>
               选择股票或 ETF、买入日期和金额，用真实日线还原收益曲线，支持动画回放、最大回撤与年化收益，以及多标的同场对比。
             </Text>
-            <View className="empty__list">
+            <View className='empty__list'>
               <Text>01 收益曲线：持仓价值随时间变化</Text>
               <Text>02 收益统计：收益 / 回撤 / 年化</Text>
               <Text>03 动画回放：曲线与数字同步推进</Text>
@@ -476,7 +476,7 @@ export default function IndexPage() {
           </View>
         )}
 
-        <View className="footer">
+        <View className='footer'>
           <Text>v1 仅支持 A 股 · 数据来源腾讯 / 东财 · 仅供研究娱乐</Text>
           <Text>架构已预留美股 / 加密货币扩展 · 不构成投资建议</Text>
         </View>

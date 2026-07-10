@@ -120,25 +120,25 @@ export default function CompareChart({
   }, [items]);
 
   return (
-    <View className="compare-chart">
-      <View className="compare-chart__header">
-        <Text className="compare-chart__label">资产价值对比</Text>
-        <Text className="compare-chart__sub">
+    <View className='compare-chart'>
+      <View className='compare-chart__header'>
+        <Text className='compare-chart__label'>资产价值对比</Text>
+        <Text className='compare-chart__sub'>
           相同买入日期与投入金额下的价值曲线
         </Text>
       </View>
       <Canvas
-        type="2d"
+        type='2d'
         id={`cmp-${canvasId}`}
         canvasId={`cmp-${canvasId}`}
-        className="compare-chart__canvas"
+        className='compare-chart__canvas'
         style={{ width: "100%", height: `${height}rpx` }}
       />
-      <View className="compare-chart__legend">
+      <View className='compare-chart__legend'>
         {items.map((item) => (
-          <View key={item.symbol} className="compare-chart__legend-item">
+          <View key={item.symbol} className='compare-chart__legend-item'>
             <View
-              className="compare-chart__dot"
+              className='compare-chart__dot'
               style={{ backgroundColor: item.color }}
             />
             <Text>{item.symbol}</Text>
