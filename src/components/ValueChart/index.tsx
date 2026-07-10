@@ -388,7 +388,7 @@ export default function ValueChart({
   series,
   index,
   playing = false,
-  speed = 1,
+  speed = 0.5,
   invested,
   height,
   currency = "CNY",

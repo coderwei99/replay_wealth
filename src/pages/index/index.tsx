@@ -52,7 +52,7 @@ export default function IndexPage() {
 
   const [playing, setPlaying] = useState(false);
   const [playIndex, setPlayIndex] = useState(0);
-  const [speed, setSpeed] = useState(1);
+  const [speed, setSpeed] = useState(0.5);
 
   const categories = useMemo(() => {
     const map = new Map<AssetCategory, AssetPreset[]>();
